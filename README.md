@@ -1,95 +1,110 @@
-# 0x01. AirBnB clone - Web static
+# 0x00. AirBnB clone - The console
+So this project is the first step towards building a first full web application (which is an AirBnB clone). This first step consists of a custom command-line interface for data management, and the base classes for the storage of this data.
 
-## Description
-This is the second step towards building a first full web application; AirBnB Clone. The goal of this project is to build a static webpage.
-The first step was building [The Console](https://github.com/SamuelRuby/AirBnB_clone).
+## Step 1: Write a command interpreter (The Console)
+
+### Functionalities of this command interpreter:
+- Create a new object (ex: a new User or a new Place)
+- Retrieve an object from a file, a database etc...
+- Do operations on objects (count, compute stats, etc...)
+- Update attributes of an object
+- Destroy an object
+
+## Console and Command Usage
+The console is a Unix shell-like command line user interface provided by the python CmdModule It prints a prompt and waits for the user for input, for our project we used (hbnb)
 
 
-This Directory Covers:
-- HTML
-- CSS
-- DOM
-- Elements / Tags
-- Attributes
-- Class
-- Selector
-- CSS Specificity Value
-- Box properties in CSS
+- Create a new object (ex: a new User or a new Place)
+- Retrieve an object from a file, a database etc...
+- Do operations on objects (count, compute stats, etc...)
+- Update attributes of an object
+- Destroy an object
+  
+### Execution
+#### Your shell should work like this in interactive mode:
+
+```
+$ ./console.py
+(hbnb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+
+(hbnb) 
+(hbnb) 
+(hbnb) quit
+$
+```
+
+#### But also in non-interactive mode: (like the Shell project in C)
+
+```
+$ echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+$ cat test_help
+help
+$
+$ cat test_help | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+```
+  
+  
+
+
+## Models
+
+The folder [models](./models/) contains all the classes used in this project.
+
+- a unique id generated using ```uuid``` package
+- the attribute ```created_at```, a ```datetime``` object, indicating when the object is created
+- the attribute ```updated_at```, a ```datetime``` object, indicating when the object is last updated
+- the attribute ```__class__```, a ```str``` object, indicating what is the object's type (model)
+
+File | Description | Attributes
+---- | ----------- | ----------
+[base_model.py](./models/base_model.py) | BaseModel class for all the other classes | id, created_at, updated_at
+[user.py](./models/user.py) | User class for future user information | email, password, first_name, last_name
+[amenity.py](./models/amenity.py) | Amenity class for future amenity information | name
+[city.py](./models/city.py) | City class for future location information | state_id, name
+[state.py](./models/state.py) | State class for future location information | name
+[place.py](./models/place.py) | Place class for future accomodation information | city_id, user_id, name, description, number_rooms, number_bathrooms, max_guest, price_by_night, latitude, longitude, amenity_ids
+[review.py](./models/review.py) | Review class for future user/host review information | place_id, user_id, text
+
+## File storage
+
+The folder [engine](./models/engine/) manages the serialization and deserialization of all the data, following a JSON format.
+
+A FileStorage class is defined in [file_storage.py](./models/engine/file_storage.py) with methods to follow this flow:
+```<object> -> to_dict() -> <dictionary> -> JSON dump -> <json string> -> FILE -> <json string> -> JSON load -> <dictionary> -> <object>```
+
+The [__init__.py](./models/__init__.py) file contains the instantiation of the FileStorage class called **storage**, followed by a call to the method reload() on that instance.
+This allows the storage to be reloaded automatically at initialization, which recovers the serialized data.
+
+
 
 
 ## Resources
-- [Learn to Code HTML & CSS](https://learn.shayhowe.com/html-css/)
-- [Inline Styles in HTML](https://www.codecademy.com/article/html-inline-styles)
-- [Specifics on CSS Specificity](https://css-tricks.com/specifics-on-css-specificity/)
-- [CSS SpeciFishity](http://www.standardista.com/wp-content/uploads/2012/01/specificity3.pdf)
-- [Introduction to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
-- [CSS](https://developer.mozilla.org/en-US/docs/Learn/CSS)
-- [MDN](https://developer.mozilla.org/en-US/)
-- [center boxes](https://css-tricks.com/centering-css-complete-guide/)
+- [cmd module](https://docs.python.org/3.8/library/cmd.html)
+- [packages concept page](https://alx-intranet.hbtn.io/concepts/74)
+- [uuid module](https://docs.python.org/3.8/library/uuid.html)
+- [datetime](https://docs.python.org/3.8/library/datetime.html)
+- [unittest module](https://docs.python.org/3.8/library/unittest.html#module-unittest)
+- [args/kwargs](https://yasoob.me/2013/08/04/args-and-kwargs-in-python-explained/)
+- [Python test cheatsheet](https://www.pythonsheets.com/notes/python-tests.html)
 
-## Table of contents
-
-Files | Description
------------ | -----------
-[images/](./images/) | Images for this project
-[0-index.html](./0-index.html) | HTML page that displays a header and a footer.
-[1-index.html](./1-index.html) | HTML page that displays a header and a footer by using the style tag in the head tag (same as [0-index.html](./0-index.html))
-[2-index.html](./2-index.html) | HTML page that displays a header and a footer by using CSS files (same as [1-index.html](./1-index.html))
-[styles/2-common.css](./styles/2-common.css) | CSS file part of [2-index.html](./2-index.html)
-[styles/2-header.css](./styles/2-header.css) | CSS file part of [2-index.html](./2-index.html)
-[styles/2-footer.css](./styles/2-footer.css) | CSS file part of [2-index.html](./2-index.html)
-[3-index.html](./3-index.html) | HTML page that displays a header and footer by using CSS files (same as [2-index.html](./2-index.html))
-[styles/3-common.css](./styles/3-common.css) |  CSS file part of [3-index.html](./3-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [3-index.html](./3-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [3-index.html](./3-index.html)
-[4-index.html](./4-index.html) | HTML page that displays a header, footer and a filters box with a search button. Layout: (based on [3-index.html](./3-index.html))
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [4-index.html](./4-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [4-index.html](./4-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [4-index.html](./4-index.html)
-[styles/4-filters.css](./styles/4-filters.css) | CSS file part of [4-index.html](./4-index.html)
-[5-index.html](./5-index.html) | HTML page that displays a header, footer and a filters box. Layout: (based on [4-index.html](./4-index.html))
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [5-index.html](./5-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [5-index.html](./5-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [5-index.html](./5-index.html)
-[styles/5-filters.css](./styles/5-filters.css) | CSS file part of [5-index.html](./5-index.html)
-[6-index.html](./6-index.html) | HTML page that displays a header, footer and a filters box with dropdown. Layout: (based on [5-index.html](./5-index.html))
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [6-index.html](./6-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [6-index.html](./6-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [6-index.html](./6-index.html)
-[styles/6-filters.css](./styles/6-filters.css) | CSS file part of [6-index.html](./6-index.html)
-[7-index.html](./7-index.html) | HTML page that displays a header, footer, a filters box with dropdown and results. Layout: (based on [6-index.html](./6-index.html))
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [7-index.html](./7-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [7-index.html](./7-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [7-index.html](./7-index.html)
-[styles/6-filters.css](./styles/6-filters.css) | CSS file part of [7-index.html](./7-index.html)
-[styles/7-places.css](./styles/7-places.css) | CSS file part of [7-index.html](./7-index.html)
-[8-index.html](./8-index.html) | HTML page that displays a header, a footer, a filter box (dropdown list) and the result of the search. Layout: (based on [7-index.html](./7-index.html) )
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [8-index.html](./8-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [8-index.html](./8-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [8-index.html](./8-index.html)
-[styles/6-filters.css](./styles/6-filters.css) | CSS file part of [8-index.html](./8-index.html)
-[styles/8-places.css](./styles/8-places.css) | CSS file part of [8-index.html](./8-index.html)
-[100-index.html](./100-index.html) | HTML page that displays a header, footer, a filters box with dropdown and results. Layout: (based on [8-index.html](./8-index.html))
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [100-index.html](./100-index.html)
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [100-index.html](./100-index.html)
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [100-index.html](./100-index.html)
-[styles/6-filters.css](./styles/6-filters.css) | CSS file part of [100-index.html](./100-index.html)
-[styles/100-places.css](./styles/100-places.css) | CSS file part of [100-index.html](./100-index.html)
-[101-index.html](./101-index.html) | Improve the Places section by using [Flexible boxes](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox) for all Place articles. [Flexbox Froggy](http://flexboxfroggy.com/)
-[styles/4-common.css](./styles/4-common.css) | CSS file part of [101-index.html](./101-index.html) 
-[styles/3-header.css](./styles/3-header.css) | CSS file part of [101-index.html](./101-index.html) 
-[styles/3-footer.css](./styles/3-footer.css) | CSS file part of [101-index.html](./101-index.html) 
-[styles/6-filters.css](./styles/6-filters.css) | CSS file part of [101-index.html](./101-index.html) 
-[styles/101-places.css](./styles/101-places.css) | CSS file part of [101-index.html](./101-index.html) 
-[102-index.html](./102-index.html) | Improve the page by adding [responsive design](https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design) to display correctly in mobile or small screens.
-[styles/102-common.css](./styles/102-common.css) | CSS file part of [102-index.html](./102-index.html)
-[styles/102-header.css](./styles/102-header.css) | CSS file part of [102-index.html](./102-index.html)
-[styles/102-footer.css](./styles/102-footer.css) | CSS file part of [102-index.html](./102-index.html)
-[styles/102-filters.css](./styles/102-filters.css) | CSS file part of [102-index.html](./102-index.html)
-[styles/102-places.css](./styles/102-places.css) | CSS file part of [102-index.html](./102-index.html)
-[103-index.html](./103-index.html) | Improve the page by adding [Accessibility support](https://developer.mozilla.org/en-US/docs/Learn/Accessibility)
-[styles/103-common.css](./styles/103-common.css) | CSS file part of [103-index.html](./103-index.html)
-[styles/103-header.css](./styles/103-header.css) | CSS file part of [103-index.html](./103-index.html)
-[styles/103-footer.css](./styles/103-footer.css) | CSS file part of [103-index.html](./103-index.html)
-[styles/103-filters.css](./styles/103-filters.css) | CSS file part of [103-index.html](./103-index.html)
-[styles/103-places.css](./styles/103-places.css) | CSS file part of [103-index.html](./103-index.html)
+# AUTHOR
+- Kelvin Mwenda | NKMKE1964@gmail.com | [GitHub](https://github.com/kelvin-maker)
+- Ruby Abuye | youreajockey@gmail.com | [GitHub](https://github.com/SamuelRuby)
